@@ -9,7 +9,11 @@ const port = process.env.PORT || 5000;
 app.use(express.json())
 
 app.get('/',(req: Request, res: Response) => {
-    res.send('Hello Word!');
+    const { message} = req.body
+
+    if (!message) return res.status(400).send({error: "Message is required"})
+    
+    res.send({message: 'Hello Word'})
 })
 
 app.listen(port, () => {
