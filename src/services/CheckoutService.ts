@@ -3,6 +3,7 @@ import { Customer, Order, PrismaClient } from "@prisma/client"
 import { CustomerData } from "../interfaces/CustomerData"
 import { PaymentData } from "../interfaces/PaymentData"
 import { SnackData } from "../interfaces/SnackData"
+import PaymentService from "./PaymentService"
 
 export default class CheckoutService {
   private prisma: PrismaClient
@@ -47,6 +48,11 @@ export default class CheckoutService {
     // console.log(`orderCreated`, orderCreated)
 
     // TODO: processar o pagamento
+    const transaction = await new PaymentService().process(
+      orderCreated,
+      customerCreated,
+      payment
+    )
   }
 
   private async createCustomer(customer: CustomerData): Promise<Customer> {
